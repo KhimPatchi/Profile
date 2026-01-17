@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Experience | Portfolio Introduction</title>
+    <meta name="description" content="A premium website introduction with smooth animations and glassmorphism design.">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+    <div class="bg-container">
+        <div class="bg-overlay"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container hero-animate">
+            <div class="glass-card">
+                <div class="hero-wrapper">
+                    <div class="hero-content">
+                        <span class="section-tag delay-1">Hello, I'm Khim</span>
+                        <h1 class="hero-title delay-2">Aspiring IT <br>Professional</h1>
+                        <p class="hero-subtitle delay-3">
+                            Currently a dedicated IT Student passionate about crafting digital solutions and exploring
+                            the vast landscape of technology.
+                        </p>
+                        <div class="btn-group delay-3">
+                            <a href="#about" class="btn btn-primary">About Me</a>
+                            <a href="#certifications" class="btn btn-secondary">Certifications</a>
+                        </div>
+                    </div>
+                    <div class="profile-img-container delay-2">
+                        <img src="assets/khim.jpg" alt="Khim - IT Student" class="profile-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about">
+        <div class="container reveal fade-bottom">
+            <div class="glass-card">
+                <div class="about-grid">
+                    <div>
+                        <span class="section-tag">Background</span>
+                        <h2 class="section-title">About Me</h2>
+                    </div>
+                    <div class="about-text">
+                        <p>
+                            Hello! I am <span class="about-highlight">Khim</span>, an IT student with a deep fascination
+                            for how technology shapes our world. My journey in tech started with a simple curiosity
+                            about how websites work, which has since evolved into a dedicated pursuit of software
+                            development excellence.
+                        </p>
+                        <p style="margin-top: 20px;">
+                            I am committed to <span class="about-highlight">continuous learning</span> and staying
+                            updated with the latest industry standards. My goal is to build meaningful applications that
+                            solve real-world problems while maintaining a high standard of code quality and user
+                            experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills/Journey Section -->
+    <section id="skills">
+        <div class="container reveal fade-bottom">
+            <span class="section-tag">Technical Journey</span>
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="grid">
+                <div class="feature-item reveal fade-left delay-1 highlight-laravel">
+                    <div class="feature-icon" style="color: var(--laravel-color);"><i class="fab fa-laravel"></i></div>
+                    <h3>Laravel Framework</h3>
+                    <p>Building robust, scalable backends and elegant web applications using PHP and the Laravel
+                        ecosystem.</p>
+                </div>
+                <div class="feature-item reveal fade-bottom delay-2">
+                    <div class="feature-icon"><i class="fas fa-code"></i></div>
+                    <h3>Web Development</h3>
+                    <p>Crafting responsive, high-performance interfaces using modern HTML, CSS, and vanilla JavaScript.
+                    </p>
+                </div>
+                <div class="feature-item reveal fade-right delay-3">
+                    <div class="feature-icon"><i class="fas fa-database"></i></div>
+                    <h3>Database Systems</h3>
+                    <p>Designing efficient data schemas and managing information with a focus on integrity and speed.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <div class="container reveal fade-bottom">
+            <span class="section-tag">Validation</span>
+            <h2 class="section-title">Certifications Achievements</h2>
+            <div class="cert-grid">
+                <div class="cert-card reveal fade-bottom delay-1" onclick="openLightbox('assets/cert1.png')">
+                    <div class="cert-img-wrapper">
+                        <img src="assets/cert1.png" alt="Java Certification" class="cert-img">
+                    </div>
+                    <h3 class="cert-title">Java Certification</h3>
+                </div>
+                <div class="cert-card reveal fade-bottom delay-2" onclick="openLightbox('assets/cert2.png')">
+                    <div class="cert-img-wrapper">
+                        <img src="assets/cert2.png" alt="HTML and CSS Certification" class="cert-img">
+                    </div>
+                    <h3 class="cert-title">HTML & CSS Certification</h3>
+                </div>
+                <div class="cert-card reveal fade-bottom delay-3" onclick="openLightbox('assets/cert3.png')">
+                    <div class="cert-img-wrapper">
+                        <img src="assets/cert3.png" alt="Database Certification" class="cert-img">
+                    </div>
+                    <h3 class="cert-title">Database Certification</h3>
+                </div>
+                <div class="cert-card reveal fade-bottom delay-4" onclick="openLightbox('assets/cert4.png')">
+                    <div class="cert-img-wrapper">
+                        <img src="assets/cert4.png" alt="Network Security Certification" class="cert-img">
+                    </div>
+                    <h3 class="cert-title">Network Security Certification</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Lightbox Modal -->
+    <div id="certLightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightboxImg">
+        <div id="caption"></div>
+    </div>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="container reveal fade-bottom">
+            <div class="glass-card">
+                <span class="section-tag">Learning Portfolio</span>
+                <h2 class="section-title">Academic Achievements</h2>
+                <p class="hero-subtitle" style="margin: 0 auto 32px; text-align: center;">
+                    A collection of projects and milestones from my journey as an IT student.
+                </p>
+                <div class="grid">
+                    <div class="feature-item reveal fade-bottom">
+                        <div
+                            style="width: 100%; height: 200px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-layer-group" style="font-size: 3rem; color: var(--secondary-color);"></i>
+                        </div>
+                        <h3>Web App Components</h3>
+                        <p>Interactive UI elements designed for academic assignments.</p>
+                    </div>
+                    <div class="feature-item reveal fade-bottom delay-1">
+                        <div
+                            style="width: 100%; height: 200px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-brain" style="font-size: 3rem; color: var(--primary-color);"></i>
+                        </div>
+                        <h3>Problem Solving</h3>
+                        <p>Algorithmic implementations and system design practice.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 40px; text-align: center; color: var(--text-secondary);">
+        <p>&copy; 2026 Premium Intro. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
