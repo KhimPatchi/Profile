@@ -1,40 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap');
+@import "tailwindcss";
 
-:root {
-    --bg-color: #020617;
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --primary-color: #7c3aed;
-    --secondary-color: #06b6d4;
-    --laravel-color: #ff2d20;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --overlay-gradient: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.1));
+@theme {
+  --color-background: #020617;
+  --color-primary: #7c3aed;
+  --color-secondary: #06b6d4;
+  --color-laravel: #ff2d20;
+  --color-textPrimary: #f8fafc;
+  --color-textSecondary: #94a3b8;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-outfit: "Outfit", sans-serif;
+  
+  --animate-slow-pulse: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-morph: morph 8s ease-in-out infinite;
+  --animate-floating: floating 6s ease-in-out infinite;
+  
+  @keyframes morph {
+    0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    50% { border-radius: 50% 50% 30% 70% / 50% 70% 30% 50%; }
+  }
+  
+  @keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+@layer base {
+  body {
+    @apply bg-background text-textPrimary font-sans overflow-x-hidden leading-relaxed;
+  }
+  h1, h2, h3 {
+    @apply font-outfit font-bold;
+  }
 }
 
-body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-    line-height: 1.6;
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-[32px] p-8 md:p-14 shadow-2xl w-full;
+  }
+
+  .btn {
+    @apply px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 inline-block cursor-pointer border-none;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white shadow-[0_10px_15px_-3px_rgba(124,58,237,0.3)] hover:-translate-y-0.5 hover:shadow-[0_20px_25px_-5px_rgba(124,58,237,0.4)] hover:brightness-110;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-white/10 text-white hover:bg-white/5 hover:border-white/30;
+  }
+
+  .section-tag {
+    @apply text-secondary uppercase font-bold tracking-[0.2em] text-sm mb-4 block;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-5xl mb-6;
+  }
 }
 
-h1,
-h2,
-h3 {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-}
-
-/* Background Image Overlay */
 .bg-container {
     position: fixed;
     top: 0;
@@ -42,7 +68,7 @@ h3 {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: url('./assets/hero-bg.png') no-repeat center center/cover;
+    background: url('/assets/hero-bg.png') no-repeat center center/cover;
 }
 
 .bg-overlay {
@@ -51,222 +77,6 @@ h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--overlay-gradient);
-    backdrop-filter: blur(2px);
-}
-
-/* Glassmorphism Card */
-.glass-card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--glass-border);
-    border-radius: 32px;
-    padding: 60px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    width: 100%;
-}
-
-/* Buttons */
-.btn-group {
-    display: flex;
-    gap: 16px;
-    justify-content: flex-start;
-}
-
-.btn {
-    padding: 14px 32px;
-    border-radius: 12px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 1rem;
-    display: inline-block;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-primary {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.4);
-    filter: brightness(1.1);
-}
-
-.btn-secondary {
-    background: transparent;
-    border: 1px solid var(--glass-border);
-    color: var(--text-primary);
-}
-
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.section-tag {
-    color: var(--secondary-color);
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    font-size: 0.875rem;
-    margin-bottom: 16px;
-    display: block;
-}
-
-.section-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 24px;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 0 20px;
-}
-
-section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 100px 0;
-    position: relative;
-}
-
-/* Animations for Profile Image (Keep some CSS animations for performance) */
-@keyframes morph {
-    0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-    50% { border-radius: 50% 50% 30% 70% / 50% 70% 30% 50%; }
-    100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-}
-
-@keyframes floating {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-.profile-img-container {
-    flex-shrink: 0;
-    position: relative;
-    width: 350px;
-    height: 350px;
-    animation: floating 6s ease-in-out infinite;
-}
-
-.profile-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    border: 4px solid var(--glass-border);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    animation: morph 8s ease-in-out infinite;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.profile-img:hover {
-    transform: scale(1.05) rotate(2deg);
-}
-
-/* Feature Item Grid */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-}
-
-.feature-item {
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 20px;
-    border: 1px solid var(--glass-border);
-    text-align: left;
-    transition: transform 0.3s ease;
-}
-
-.feature-item:hover {
-    transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.04);
-}
-
-/* Certification Cards Blur Effect */
-.cert-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin-top: 50px;
-}
-
-.cert-card {
-    background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 24px;
-    padding: 24px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: center;
-    backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
-}
-
-.cert-img-wrapper {
-    width: 100%;
-    height: 200px;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--glass-border);
-    position: relative;
-}
-
-/* Blurring the screenshot */
-.cert-img-blurred {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(15px);
-    transition: filter 0.5s ease;
-}
-
-.cert-card:hover .cert-img-blurred.revealed {
-    filter: blur(0);
-}
-
-.blur-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.4);
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 600;
-    transition: opacity 0.3s ease;
-}
-
-.cert-card:hover .blur-overlay {
-    opacity: 0;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 992px) {
-    .hero-wrapper, .about-grid {
-        flex-direction: column-reverse;
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 40px;
-    }
-    .profile-img-container {
-        width: 280px;
-        height: 280px;
-    }
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.15));
+    backdrop-filter: blur(4px);
 }
