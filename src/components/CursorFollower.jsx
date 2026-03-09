@@ -89,26 +89,28 @@ const CursorFollower = () => {
     const [isVisible, setIsVisible] = useState(false);
     const totalSegments = 14; 
     
-    const targets = useRef(
-        Array.from({ length: totalSegments }).map(() => ({
-            x: useMotionValue(-500),
-            y: useMotionValue(-500)
-        }))
-    ).current;
+    // Create motion values at component level - hooks must be called at top level
+    const motionValues = Array.from({ length: totalSegments }).map(() => ({
+        x: useMotionValue(-500),
+        y: useMotionValue(-500)
+    }));
+    
+    const targets = useRef(motionValues).current;
 
-    const segmentSprings = useRef(
-        Array.from({ length: totalSegments }).map((_, i) => {
-            const config = { 
-                stiffness: 220 - i * 5, 
-                damping: 24 + i * 0.8,
-                mass: 0.15 + i * 0.08
-            };
-            return {
-                x: useSpring(targets[i].x, config),
-                y: useSpring(targets[i].y, config)
-            };
-        })
-    ).current;
+    // Create spring animations at component level
+    const segmentSprings = Array.from({ length: totalSegments }).map((_, i) => {
+        const config = { 
+            stiffness: 220 - i * 5, 
+            damping: 24 + i * 0.8,
+            mass: 0.15 + i * 0.08
+        };
+        return {
+            x: useSpring(targets[i].x, config),
+            y: useSpring(targets[i].y, config)
+        };
+    });
+    
+    const segmentSpringsRef = useRef(segmentSprings).current;
 
     const [rotations, setRotations] = useState(new Array(totalSegments).fill(0));
 
@@ -136,7 +138,7 @@ const CursorFollower = () => {
             targets[0].y.set(mouseY);
         };
 
-        const unsubscribes = segmentSprings.slice(0, -1).map((spring, i) => {
+        const unsubscribes = segmentSpringsRef.slice(0, -1).map((spring, i) => {
             const unsubX = spring.x.on("change", (latestX) => {
                 const latestY = spring.y.get();
                 const curX = targets[i+1].x.get();
@@ -165,13 +167,13 @@ const CursorFollower = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             unsubscribes.forEach(unsub => unsub());
         };
-    }, [isVisible, segmentSprings, targets]);
+    }, [isVisible, segmentSpringsRef, targets]);
 
     if (!isVisible) return null;
 
     return (
-        <div className="hidden lg:block fixed inset-0 pointer-events-none overflow-visible will-change-transform">
-            {segmentSprings.map((spring, i) => (
+        <div className="hidden md:block fixed inset-0 pointer-events-none overflow-visible will-change-transform">
+            {segmentSpringsRef.map((spring, i) => (
                 <DragonSegment 
                     key={i} 
                     index={i} 
