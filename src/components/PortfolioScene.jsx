@@ -49,39 +49,6 @@ const Tooltip = ({ position, title, description, active }) => {
   );
 };
 
-// 3D Coordinate Grid Component with Scanning Pulse
-const BackgroundGrid = () => {
-  const gridRef = useRef();
-  useFrame(({ clock }) => {
-    if (gridRef.current) {
-      gridRef.current.position.z = -20 + Math.sin(clock.elapsedTime * 0.2) * 2;
-    }
-  });
-
-  return (
-    <group ref={gridRef} position={[0, -10, -20]} rotation={[Math.PI / 2.2, 0, 0]}>
-      <Grid
-        infiniteGrid
-        sectionSize={5}
-        sectionThickness={1.5}
-        sectionColor="#7c3aed"
-        cellSize={1}
-        cellThickness={0.5}
-        cellColor="#3b82f6"
-        fadeDistance={100}
-        fadeStrength={5}
-        side={THREE.DoubleSide}
-        opacity={0.15}
-      />
-      {/* Scanning Pulse Overlay */}
-      <mesh position={[0, 0, 0.05]}>
-        <planeGeometry args={[100, 100]} />
-        <meshBasicMaterial color="#7c3aed" transparent opacity={0.02} side={THREE.DoubleSide} />
-      </mesh>
-    </group>
-  );
-};
-
 // Procedural Data Motes (Particles)
 const DataMotes = ({ count = 150 }) => {
   const points = useMemo(() => {
@@ -111,6 +78,95 @@ const DataMotes = ({ count = 150 }) => {
       </bufferGeometry>
       <pointsMaterial size={0.08} color="#3b82f6" transparent opacity={0.4} sizeAttenuation />
     </points>
+  );
+};
+
+// Procedural Planet with Tech Rings
+const Planet = ({ position, size, color, ringColor, speed = 1 }) => {
+  const meshRef = useRef();
+  const ringRef = useRef();
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.1 * speed;
+    }
+    if (ringRef.current) {
+      ringRef.current.rotation.z = state.clock.elapsedTime * 0.05 * speed;
+    }
+  });
+
+  return (
+    <group position={position}>
+      <mesh ref={meshRef}>
+        <sphereGeometry args={[size, 32, 32]} />
+        <MeshDistortMaterial 
+          color={color} 
+          speed={2} 
+          distort={0.3} 
+          radius={1}
+          emissive={color}
+          emissiveIntensity={0.2}
+        />
+      </mesh>
+      {/* Planetary Ring */}
+      <mesh ref={ringRef} rotation={[Math.PI / 2.5, 0, 0]}>
+        <torusGeometry args={[size * 1.8, size * 0.02, 2, 100]} />
+        <meshBasicMaterial color={ringColor} transparent opacity={0.3} />
+      </mesh>
+      <pointLight intensity={2} color={color} />
+    </group>
+  );
+};
+
+// Animated Meteors (Shooting Stars)
+const Meteors = ({ count = 8 }) => {
+  const meteors = useMemo(() => {
+    return [...Array(count)].map(() => ({
+      position: [
+        (Math.random() - 0.5) * 100,
+        (Math.random() - 0.5) * 100,
+        -50 - Math.random() * 50
+      ],
+      speed: 0.5 + Math.random() * 1.5,
+      scale: 0.1 + Math.random() * 0.4,
+      angle: Math.random() * Math.PI * 2
+    }));
+  }, [count]);
+
+  return (
+    <group>
+      {meteors.map((m, i) => (
+        <Meteor key={i} {...m} />
+      ))}
+    </group>
+  );
+};
+
+const Meteor = ({ position, speed, scale, angle }) => {
+  const ref = useRef();
+  
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.position.x += Math.cos(angle) * speed;
+      ref.current.position.y += Math.sin(angle) * speed;
+      
+      // Reset meteor position if it goes too far
+      if (Math.abs(ref.current.position.x) > 100 || Math.abs(ref.current.position.y) > 100) {
+        ref.current.position.set(position[0], position[1], position[2]);
+      }
+    }
+  });
+
+  return (
+    <mesh ref={ref} position={position}>
+      <sphereGeometry args={[scale, 8, 8]} />
+      <meshBasicMaterial color="white" transparent opacity={0.6} />
+      {/* Trail effect using a thin cylinder */}
+      <mesh position={[-Math.cos(angle) * 2, -Math.sin(angle) * 2, 0]} rotation={[0, 0, angle]}>
+        <cylinderGeometry args={[scale * 0.5, 0, 4, 8]} />
+        <meshBasicMaterial color="white" transparent opacity={0.2} />
+      </mesh>
+    </mesh>
   );
 };
 
@@ -292,7 +348,14 @@ const PortfolioScene = ({ children }) => {
 
           <SceneContent teardownFactor={teardownFactor} sections={children} />
 
-          <BackgroundGrid />
+          {/* Cosmic Elements */}
+          <group position={[0, 0, -60]}>
+            <Planet position={[-30, 20, -20]} size={8} color="#7c3aed" ringColor="#3b82f6" speed={0.5} />
+            <Planet position={[40, -10, -40]} size={12} color="#000" ringColor="#7c3aed" speed={0.3} />
+            <Planet position={[-50, -30, -10]} size={15} color="#1e1b4b" ringColor="#3b82f6" speed={0.2} />
+            <Meteors count={10} />
+          </group>
+          
           <DataMotes count={250} />
           <CodeStreams />
           <TechSchematix />
