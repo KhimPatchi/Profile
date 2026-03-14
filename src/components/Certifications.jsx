@@ -130,7 +130,7 @@ const Certifications = () => {
   };
 
   return (
-    <section id="certifications" className="py-24 px-4 bg-white/[0.01]">
+    <section id="certifications" className="p-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
            initial="hidden"

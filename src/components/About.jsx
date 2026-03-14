@@ -24,7 +24,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="py-32 px-4">
+    <section id="about" className="p-4">
       <div className="max-w-7xl mx-auto">
         <motion.div 
           className="glass-card relative overflow-hidden group"
