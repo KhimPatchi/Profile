@@ -100,7 +100,7 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="py-24 px-4 overflow-hidden">
+    <section id="skills" className="p-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
            initial="hidden"

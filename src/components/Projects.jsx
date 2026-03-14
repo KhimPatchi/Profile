@@ -126,7 +126,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-24 px-4">
+    <section id="projects" className="p-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
            initial="hidden"
